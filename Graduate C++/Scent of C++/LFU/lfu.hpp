@@ -33,7 +33,7 @@ public:
 
     Value get(Key key) {
         if(auto it = lookupTable.find(key); it != lookupTable.end()) {
-            it->second->first += 1;
+            it->second.first += 1;
             values.splice(values.begin(), values, it->second.second);
             return *(it->second->second);
         }
@@ -42,6 +42,7 @@ public:
 
     bool put(Key key, Value value) {
         if(auto it = lookupTable.find(key); it != lookupTable.end()) {
+            it->second.first += 1;
             values.splice(values.begin(), values, it->second.second);
             return true;
         }
