@@ -34,7 +34,6 @@ public:
     Value get(Key key) {
         if(auto it = lookupTable.find(key); it != lookupTable.end()) {
             it->second.first += 1;
-            values.splice(values.begin(), values, it->second.second);
             return *(it->second->second);
         }
         throw std::runtime_error{"There are no such key in cache"};
@@ -43,7 +42,6 @@ public:
     bool put(Key key, Value value) {
         if(auto it = lookupTable.find(key); it != lookupTable.end()) {
             it->second.first += 1;
-            values.splice(values.begin(), values, it->second.second);
             return true;
         }
         if(values.size() == capacity_) {
