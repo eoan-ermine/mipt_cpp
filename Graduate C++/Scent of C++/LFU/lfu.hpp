@@ -5,39 +5,7 @@
 #include <list>
 #include <algorithm>
 
-constexpr int MAXIMUM_FREQUENCY = 65536;
-
-template<typename T>
-class CacheItem {
-    static int currentIndex;
-    T value;
-    int usageCounter{0}, index{0};
-public:
-    CacheItem(T&& value): value(value), index(currentIndex++) { }
-    void increaseUsageCounter() {
-        ++usageCounter;
-    }
-
-    void setValue(T&& newValue) {
-        increaseUsageCounter();
-        value = std::move(newValue);
-    }
-    const T& getValue() const {
-        increaseUsageCounter();
-        return value;
-    }
-    T& getValue() {
-        increaseUsageCounter();
-        return value;
-    }
-
-    friend bool operator<(const CacheItem& lhs, const CacheItem& rhs) {
-        return std::tie(lhs.usageCounter, lhs.index) < std::tie(rhs.usageCounter, rhs.index);
-    }
-};
-
-template<typename T>
-int CacheItem<T>::currentIndex = 1;
+#include "cache_item.hpp"
 
 template<typename Value, typename Key = int>
 class LFUCache {
@@ -76,7 +44,7 @@ public:
             lookupTable.erase(to_delete);
         }
         values.push_front(value);
-        lookupTable.insert({key, CacheItem(values.begin())});
+        lookupTable.insert({key, CacheItem<ListIt>(values.begin())});
         return false;
     }
 };
