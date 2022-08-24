@@ -1,5 +1,15 @@
+#include <iostream>
+
 template <typename T1, typename T2> struct A {
-	void func(void) {}
+	void func(void) {
+		std::cout << "for all\n";
+	}
+};
+
+template <typename T2> struct A <int, T2> {
+	void func(void) {
+		std::cout << "for int\n";
+	}
 };
 
 int main() {
