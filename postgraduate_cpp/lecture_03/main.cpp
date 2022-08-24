@@ -1,14 +1,13 @@
 #include <iostream>
+#include <concepts>
 
 template <typename T1, typename T2> struct A {
 	void func(void) {
-		std::cout << "for all\n";
-	}
-};
-
-template <typename T2> struct A <int, T2> {
-	void func(void) {
-		std::cout << "for int\n";
+		if constexpr (std::is_same_v<T1, int>) {
+			std::cout << "for int\n";
+		} else {
+			std::cout << "for all\n";
+		}
 	}
 };
 
